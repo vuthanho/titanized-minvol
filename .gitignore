@@ -3,10 +3,11 @@ saved_data/*
 !saved_data/.gitkeep
 trash
 *.old
-!datasets/*
 !datasets/20news/*
-datasets/*
+datasets/20news/*
 !datasets/20news/test.data
+!datasets/*
+datasets/*
 !datasets/Indian_pines_corrected.mat
 !datasets/PaviaU.mat
 !datasets/reviews.mat
