@@ -1,0 +1,13 @@
+saved_data\*
+trash
+*.old
+!datasets\*
+datasets\*
+!datasets\20news\test.data
+!datasets\Indian_pines_corrected.mat
+!datasets\PaviaU.mat
+!datasets\reviews.mat
+!datasets\SanDiego.mat
+!datasets\sports.mat
+!datasets\TerrainClean.mat
+!datasets\Urban.mat
