@@ -6,6 +6,6 @@ if nargin < 2
 end
 [n, ~] = size(Y);
 b = ones(n,1);
-X = max( epsilon, Y - max((cumsum(Y.*b)-1)./(cumsum(b.*b))) );
+lambda = max((cumsum(sort(Y.*b,1,'descend'))-1)./(cumsum(b.*b)));
+X = max(epsilon, Y - lambda);
 end
-

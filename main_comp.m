@@ -25,17 +25,17 @@ options.lambda=0.001;
 
 % Initialization
 
-[K,H] = SNPA(X,r);
-W = full(X(:,K));
-if length(K) < r
-    warning('SNPA recovered less than r basis vectors.');
-    warning('The data poins have less than r vertices.');
-    r = length(K);
-    fprintf('The new value of r is %2.0d.\n',r);
-end
+% [K,H] = SNPA(X,r);
+% W = full(X(:,K));
+% if length(K) < r
+%     warning('SNPA recovered less than r basis vectors.');
+%     warning('The data poins have less than r vertices.');
+%     r = length(K);
+%     fprintf('The new value of r is %2.0d.\n',r);
+% end
 
-% W = rand(m,r);
-% H = FGMfcnls(X,W,[],100);   
+W = rand(m,r);
+H = FGMfcnls(X,W,[],100);   
 
 scale = sum(W);
 W = W./scale;

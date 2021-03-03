@@ -17,3 +17,5 @@
 !/datasets/20news/
 /datasets/20news/**
 !/datasets/20news/test.data
+
+/methods/halsiminvolNMF.m

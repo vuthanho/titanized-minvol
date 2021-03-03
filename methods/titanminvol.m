@@ -69,23 +69,21 @@ Hold = H;
 % extrapolation sequence
 alpha1=1;
 alpha2=1;
-
 tic
 while etx(k) < options.maxtime
     k = k+1;
-   
     % *** Update W ***   
-	
     iter = 1; % inner iter counter
     % Stop if ||W^{k}-W^{k+1}||_F <= delta * ||W^{0}-W^{1}||_F
     eps0 = 0; eps = 1;
+	Woldold = W;
     while iter <= inneriter && eps >= delta_iter*eps0
         alpha0 = alpha1;
         alpha1 = 0.5*(1+sqrt(1+4*alpha0^2));
         P = inv( WtW + delta_eyer );
         LW = norm(HHt+lambda*P); % New Lipschitz constant for W
-        beta = min((alpha0-1)/alpha1 , 0.9999*sqrt(LpW/LW));
         if inertial
+			beta = min((alpha0-1)/alpha1 , 0.9999*sqrt(LpW/LW));
             Wextra = W + beta*(W-Wold);
             Wold=W;
             W = simplexProj(Wextra + 1/LW*(XHt - Wextra*(HHt+lambda*P)), 1e-16);
@@ -93,11 +91,11 @@ while etx(k) < options.maxtime
             W = simplexProj(W + 1/LW*(XHt - W*(HHt+lambda*P)), 1e-16);
         end
         if iter == 1
-            eps0 = norm(W-Wold,'fro'); 
+            eps0 = norm(W-Woldold,'fro'); 
         end
         WtW = W'*W; % Pre-computing to save computation time
         LpW=LW;
-        eps = norm(W-Wold,'fro');
+        eps = norm(W-Woldold,'fro');
         iter = iter + 1;
     end
     LH = norm(WtW); % New Lipschitz constant for H
@@ -105,15 +103,16 @@ while etx(k) < options.maxtime
    
     
     % *** Update H ***
-	
     iter = 1; % inner iter counter
     % Stop if ||H^{k}-H^{k+1}||_F <= delta * ||H^{0}-H^{1}||_F
     eps0 = 0; eps = 1;
+	Holdold = H;
     while iter <= inneriter && eps >= delta_iter*eps0
         alpha0 = alpha2;
         alpha2 = 0.5*(1+sqrt(1+4*alpha0^2));
-        beta = min((alpha0-1)/alpha2 , 0.9999*sqrt(LpH/LH));
+					   
         if inertial
+			beta = min((alpha0-1)/alpha2 , 0.9999*sqrt(LpH/LH));
             Hextra = H + beta*(H-Hold);
             Hold=H;
             H = max(1e-16,Hextra + 1/LH*(WtX - WtW*Hextra));
@@ -121,9 +120,9 @@ while etx(k) < options.maxtime
             H = max(1e-16,H + 1/LH*(WtX - WtW*H));
         end
         if iter == 1
-            eps0 = norm(H-Hold,'fro'); 
+            eps0 = norm(H-Holdold,'fro'); 
         end
-        eps = norm(H-Hold,'fro');
+        eps = norm(H-Holdold,'fro');
         LpH=LH; 
         iter = iter + 1;
     end

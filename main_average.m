@@ -8,8 +8,9 @@ clc
 addpath(genpath(pwd))
 
 
-datasets = {"urban"}; 
+datasets = {"indian"}; 
 options.lambda=0.001;
+options.delta=0.01;
 options.display = true;
 options.inneriter = 10;
 options.delta_iter = 1e-2;
